@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.flex {
+  display: flex;
+  gap: 1px;
+}

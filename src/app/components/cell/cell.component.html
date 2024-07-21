@@ -1,0 +1,13 @@
+<div class="cell" [class]="'number-'+cell().neghborMines" [ngClass]="{'bombrevealed':cell().hasMine}"(click)="onCellClicked()" >
+    @if(cell().isRevealed){
+        @if(cell().hasMine){
+            <span>💣</span>
+        }
+        @else if (cell().isFlagged) {
+            <span>🚩</span>
+        }
+        @else if(cell().neghborMines){
+            {{cell().neghborMines}}
+        }
+    }
+</div>
