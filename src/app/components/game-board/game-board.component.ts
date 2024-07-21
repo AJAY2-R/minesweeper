@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CellComponent } from '../cell/cell.component';
-import { Cell, Gird } from '../../models/models';
+import { Cell, DIRECTIONS, Gird } from '../../models/models';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'game-board',
   standalone: true,
-  imports: [CellComponent,CommonModule],
+  imports: [CellComponent, CommonModule],
   templateUrl: './game-board.component.html',
   styleUrl: './game-board.component.scss'
 })
@@ -14,7 +14,7 @@ export class GameBoardComponent {
   grid: Gird = []
   rows: number = 6;
   cols: number = 6;
-
+  directions = DIRECTIONS;
   constructor() {
     this.initilize();
   }
@@ -51,21 +51,16 @@ export class GameBoardComponent {
   }
 
   private calculateNeighboringMines(): void {
-    const directions = [
-      [-1, 1], [-1, 0], [-1, 1],
-      [0, -1], [0, 1],
-      [1, -1], [1, 0], [1, 1]
-    ]
     for (let row = 0; row < this.rows; row++) {
       for (let col = 0; col < this.cols; col++) {
         if (this.grid[row][col].hasMine)
           continue;
         else {
           let mineCount = 0;
-          for (const [dx, dy] of directions) {
+          for (const [dx, dy] of this.directions) {
             const neighborRow = dx + row;
             const neighborCol = dy + col;
-            if (neighborRow >= 0 && neighborRow < this.rows && neighborCol > 0 &&
+            if (neighborRow >= 0 && neighborRow < this.rows && neighborCol >= 0 &&
               neighborCol < this.cols && this.grid[neighborRow][neighborCol].hasMine) {
               mineCount++;
             }
@@ -75,4 +70,23 @@ export class GameBoardComponent {
       }
     }
   }
+
+  public revealCell(row: number, col: number): void {
+    if (row < 0 || row >= this.rows || col < 0 || col >= this.cols || this.grid[row][col].isRevealed ||
+      this.grid[row][col].isFlagged) {
+      return;
+    }
+    this.grid[row][col].isRevealed = true;
+    if (this.grid[row][col].hasMine) {
+      console.log("Game Over!");
+      return;
+    }
+
+    if (this.grid[row][col].neghborMines === 0) {
+      for (const [dx, dy] of this.directions) {
+        this.revealCell(row + dx, col + dy);
+      }
+    }
+  }
+  
 }

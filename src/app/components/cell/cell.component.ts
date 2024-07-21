@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Cell } from '../../models/models';
 import { CommonModule } from '@angular/common';
 
@@ -14,7 +14,10 @@ export class CellComponent {
   cellChange = output<Cell>();
 
   onCellClicked() {
-    this.cell().isRevealed = true;
     this.cellChange.emit(this.cell());
+  }
+  onCellFlaged(event:MouseEvent){
+    this.cell().isFlagged= !this.cell().isFlagged;
+    event.preventDefault();
   }
 }

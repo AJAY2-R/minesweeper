@@ -1,9 +1,9 @@
 <div class="container">
     @for(cells of grid;track $index;let rowIndex=$index){
-        <div class="flex">
-            @for(cell of cells;track $index;let colIndex=$index){
-                <cell [(cell)]="grid[rowIndex][colIndex]"></cell>
-            }
-        </div>
+    <div class="flex">
+        @for(cell of cells;track $index;let colIndex=$index){
+            <cell [(cell)]="grid[rowIndex][colIndex]" (cellChange)="revealCell(rowIndex,colIndex)"></cell>
+        }
+    </div>
     }
 </div>
