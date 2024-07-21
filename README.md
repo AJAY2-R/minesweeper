@@ -1,4 +1,6 @@
-# Minesweeper
+# Minesweeper Game
+
+This is a classic Minesweeper game implemented using Angular and TypeScript. The objective of the game is to clear a rectangular board containing hidden mines without detonating any of them, using clues about the number of neighboring mines in each field.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.1.
 
