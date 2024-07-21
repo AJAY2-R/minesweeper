@@ -15,6 +15,8 @@ export class GameBoardComponent {
   rows: number = 6;
   cols: number = 6;
   directions = DIRECTIONS;
+  isGameOver: boolean = false;
+  points: number = 0;
   constructor() {
     this.initilize();
   }
@@ -78,13 +80,11 @@ export class GameBoardComponent {
     }
     this.grid[row][col].isRevealed = true;
     if (this.grid[row][col].hasMine) {
-      const response = confirm("GAME OVER !")
-      if (response) {
-        this.initilize();
-      }
+      this.isGameOver = true;
+      this.revealAllMines();
       return;
     }
-
+    this.points++;
     if (this.grid[row][col].neghborMines === 0) {
       for (const [dx, dy] of this.directions) {
         this.revealCell(row + dx, col + dy);
@@ -92,4 +92,19 @@ export class GameBoardComponent {
     }
   }
 
+  revealAllMines() {
+    for (let row = 0; row < this.rows; row++) {
+      for (let col = 0; col < this.cols; col++) {
+        if (this.grid[row][col].hasMine) {
+          this.grid[row][col].isRevealed = true;
+        }
+      }
+    }
+  }
+
+  restart() {
+    this.points = 0;
+    this.isGameOver = false;
+    this.initilize();
+  }
 }
