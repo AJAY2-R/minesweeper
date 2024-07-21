@@ -78,7 +78,10 @@ export class GameBoardComponent {
     }
     this.grid[row][col].isRevealed = true;
     if (this.grid[row][col].hasMine) {
-      console.log("Game Over!");
+      const response = confirm("GAME OVER !")
+      if (response) {
+        this.initilize();
+      }
       return;
     }
 
@@ -88,5 +91,5 @@ export class GameBoardComponent {
       }
     }
   }
-  
+
 }
