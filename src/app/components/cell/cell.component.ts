@@ -12,12 +12,13 @@ import { CommonModule } from '@angular/common';
 export class CellComponent {
   cell = input.required<Cell>();
   cellChange = output<Cell>();
-
+  updateFlag = output<void>();
+  isGameOver = input.required<boolean>();
   onCellClicked() {
     this.cellChange.emit(this.cell());
   }
-  onCellFlaged(event:MouseEvent){
-    this.cell().isFlagged= !this.cell().isFlagged;
+  onCellFlaged(event: MouseEvent) {
+    this.updateFlag.emit();
     event.preventDefault();
   }
 }

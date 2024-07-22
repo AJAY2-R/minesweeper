@@ -8,6 +8,9 @@
             {{cell().neghborMines}}
         }
     }
+    @else if (cell().isFlagged && cell().hasMine &&  isGameOver()) {
+        <span>🎯</span>
+    }
     @else if (cell().isFlagged) {
         <span>🚩</span>
     }
