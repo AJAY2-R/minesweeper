@@ -35,7 +35,6 @@ export class GameBoardComponent {
     this.intitilizeBoard();
     this.placeMines(this.minesCount);
     this.calculateNeighboringMines();
-    console.log(this.grid);
   }
 
   private intitilizeBoard() {
