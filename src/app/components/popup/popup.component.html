@@ -1,0 +1,16 @@
+<div class="overlay">
+    <div class="container" #popupContainer>
+        <div class="title">
+            <ng-content select="[slot=status]" />
+        </div>
+        <div class="content">
+            <ng-content select="[slot=content]" />
+        </div>
+        <div class="content-2">
+            Do you want to play again?
+        </div>
+        <div class="actions">
+            <ng-content select="[slot=actions]" />
+        </div>
+    </div>
+</div>

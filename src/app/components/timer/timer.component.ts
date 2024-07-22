@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
 
 @Component({
   selector: 'timer',
@@ -10,10 +10,14 @@ import { Component } from '@angular/core';
 export class TimerComponent {
   timer: number = 0;
   timerId!: NodeJS.Timeout;
-
+  timeOutWarning = output<boolean>();
   startTimer() {
     this.timerId = setInterval(() => {
       this.timer++;
+      if (this.timer === 999) {
+        this.timeOutWarning.emit(true);
+        this.stopTimer();
+      }
     }, 1000)
   }
 

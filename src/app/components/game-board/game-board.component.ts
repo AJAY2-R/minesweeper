@@ -1,26 +1,31 @@
 import { Component, viewChild } from '@angular/core';
 import { CellComponent } from '../cell/cell.component';
 import { Cell, DIRECTIONS, Gird } from '../../models/models';
-import { CommonModule } from '@angular/common';
 import { TimerComponent } from '../timer/timer.component';
+import { PopupComponent } from '../popup/popup.component';
 
 @Component({
   selector: 'game-board',
   standalone: true,
-  imports: [CellComponent, CommonModule, TimerComponent],
+  imports: [CellComponent, TimerComponent, PopupComponent],
   templateUrl: './game-board.component.html',
   styleUrl: './game-board.component.scss'
 })
+
 export class GameBoardComponent {
   grid: Gird = []
-  rows: number = 6;
-  cols: number = 6;
-  minesCount: number = 6;
+  rows: number = 15;
+  cols: number = 15;
+  minesCount: number = this.rows * this.cols / 5;
   remainingFlags: number = this.minesCount;
+  diffusedMines: number = 0;
   directions = DIRECTIONS;
   isGameOver: boolean = false;
-  gameStatus: string = '';
+  gameStatus: "" | "You Win" | "Game Over" = "";
+  gameMessage: string = '';
   points: number = 0;
+  showPopup: boolean = false;
+
   timerComponent = viewChild.required<TimerComponent, TimerComponent>('timer', { read: TimerComponent });
   constructor() {
     this.initilize();
@@ -90,10 +95,7 @@ export class GameBoardComponent {
     }
     this.grid[row][col].isRevealed = true;
     if (this.grid[row][col].hasMine) {
-      this.isGameOver = true;
-      this.revealAllMines();
-      this.timerComponent().stopTimer();
-      this.gameStatus = 'Game Over';
+      this.gameOver();
       return;
     }
     this.points++;
@@ -108,8 +110,11 @@ export class GameBoardComponent {
   revealAllMines() {
     for (let row = 0; row < this.rows; row++) {
       for (let col = 0; col < this.cols; col++) {
-        if (this.grid[row][col].hasMine && !this.grid[row][col].isFlagged) {
-          this.grid[row][col].isRevealed = true;
+        if (this.grid[row][col].hasMine) {
+          if (!this.grid[row][col].isFlagged)
+            this.grid[row][col].isRevealed = true;
+          else
+            this.diffusedMines++;
         }
       }
     }
@@ -119,8 +124,10 @@ export class GameBoardComponent {
     this.points = 0;
     this.remainingFlags = this.minesCount;
     this.isGameOver = false;
+    this.gameStatus = '';
     this.initilize();
     this.timerComponent().resetTimer();
+    this.timerComponent().startTimer();
   }
 
   updateFlag(row: number, col: number) {
@@ -139,7 +146,37 @@ export class GameBoardComponent {
     if (this.points === this.rows * this.cols - this.minesCount && !this.isGameOver) {
       this.isGameOver = true;
       this.gameStatus = 'You Win';
+      this.gameMessage = 'Congratulations! You have won the game';
       this.timerComponent().stopTimer();
+      this.showPopup = true;
     }
+  }
+
+  gameOver() {
+    this.isGameOver = true;
+    this.revealAllMines();
+    this.timerComponent().stopTimer();
+    this.gameStatus = 'Game Over';
+    if (this.points === 0) {
+      this.gameMessage = "You hit a mine in your first click.Game over!";
+    } else if (this.points === 1) {
+      this.gameMessage = "You found 1 mine. Keep going!";
+    } else if (this.points === 10) {
+      this.gameMessage = "You found 10 mines. Great job!";
+    } else if (this.points === 50) {
+      this.gameMessage = "You found 50 mines. You're on fire!";
+    } else if (this.points === 100) {
+      this.gameMessage = "You found 100 mines. You're a master!";
+    } else if (this.points === this.minesCount - 1) {
+      this.gameMessage = "You hit the last mine. Game over!";
+    }
+    else {
+      this.gameMessage = "You hit a mine. Game over!";
+    }
+    this.showPopup = true;
+  }
+
+  closePopup() {
+    this.showPopup = false;
   }
 }

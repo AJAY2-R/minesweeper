@@ -1,19 +1,43 @@
 <div class="container">
-    @if(isGameOver){
-        <div>{{this.gameStatus}}</div>
-        <button (click)="restart()">Restart</button>
-    }
     <div>
-        <div>POINT : {{points}}</div>
-        <div>FLAG : {{remainingFlags}}</div>
-    </div>
-    <timer #timer></timer>
-    @for(cells of grid;track $index;let rowIndex=$index){
-    <div class="flex">
-        @for(cell of cells;track $index;let colIndex=$index){
-            <cell [cell]="grid[rowIndex][colIndex]" [isGameOver]="isGameOver" (cellChange)="revealCell(rowIndex,colIndex)" 
-                (updateFlag)="updateFlag(rowIndex,colIndex)"></cell>
+        <h1 class="center">Minesweeper 💣</h1>
+        <div class="g-info center">
+            <div class="flex-container">
+                <div class="flex-item">POINTS 💠: {{points.toString().padStart(3,'0')}}</div>
+                <div class="flex-item">FLAGS 🚩: {{remainingFlags}}</div>
+            </div>
+            <div>
+                @if(isGameOver && showPopup){
+                    <popup-message>
+                        <div slot="status">{{this.gameStatus}}</div>
+                        <div slot="content">{{this.gameMessage}}</div>
+                        <div slot="actions">
+                            <button (click)="restart()" class="btn-confirm">Yes</button>
+                            <button (click)="closePopup()" class="btn-cancel">No</button>
+                        </div>
+                    </popup-message>
+                }
+                @switch (gameStatus) {
+                    @case ("You Win") {
+                        <span (click)="restart()">😎</span>
+                    }
+                    @case ("Game Over") {
+                        <span (click)="restart()">😵</span>
+                    }
+                    @default {
+                        <span>😊</span>
+                    }
+                }
+            </div>
+            <timer #timer (timeOutWarning)="gameOver()"></timer>
+        </div>
+        @for(cells of grid;track $index;let rowIndex=$index){
+        <div class="flex">
+            @for(cell of cells;track $index;let colIndex=$index){
+                <cell [cell]="grid[rowIndex][colIndex]" [isGameOver]="isGameOver" (cellChange)="revealCell(rowIndex,colIndex)" 
+                    (updateFlag)="updateFlag(rowIndex,colIndex)"></cell>
+            }
+        </div>
         }
     </div>
-    }
 </div>

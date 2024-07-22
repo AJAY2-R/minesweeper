@@ -1,1 +1,3 @@
-<p>{{this.timer.toLocaleString('en-US', { minimumIntegerDigits: 3, useGrouping: false })}}</p>
+<div class="center">
+    {{this.timer.toString().padStart(3,'0')}}
+</div>
