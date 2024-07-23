@@ -126,7 +126,10 @@ export class GameBoardComponent {
     this.points = 0;
     this.remainingFlags = this.minesCount;
     this.isGameOver = false;
+    this.showGameOverPopup = false;
+    this.showSettings = false;
     this.gameStatus = '';
+    this.grid = [];
     this.initilize();
     this.timerComponent().resetTimer();
     this.timerComponent().startTimer();
@@ -185,7 +188,7 @@ export class GameBoardComponent {
   openSettings() {
     this.showSettings = true;
   }
-  
+
   closeSettings() {
     this.showSettings = false;
   }
