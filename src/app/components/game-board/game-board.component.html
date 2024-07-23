@@ -1,5 +1,36 @@
 <div class="container">
     <div>
+        <div>
+           <span (click)="openSettings()" class="settings-ico">⚙</span>
+           @if(showSettings){
+            <popup-message>
+                <div slot="status">Settings</div>
+                <div slot="content">
+                    <div class="g-settings">
+                        <div class="flex-container">
+                            <div class="flex-item">
+                                <label for="rows">Rows:</label>
+                                <input type="number" id="rows" name="rows" [(ngModel)]="rows" min="1" max="20">
+                            </div>
+                            <div class="flex-item">
+                                <label for="cols">Columns:</label>
+                                <input type="number" id="cols" name="cols" [(ngModel)]="cols" min="1" max="20">
+                            </div>
+                            <div class="flex-item">
+                                <label for="mines">Mines:</label>
+                                <input type="number" id="mines" name="mines" [(ngModel)]="minesCount" min="1" max="100">
+                            </div>
+                            <div class="flex-item center">
+                                <button (click)="restart()">Restart</button>
+                                <button (click)="closeSettings()" class="btn-close">Close</button>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </popup-message>
+           } 
+        </div>
         <h1 class="center">Minesweeper 💣</h1>
         <div class="g-info center">
             <div class="flex-container">
@@ -7,13 +38,14 @@
                 <div class="flex-item">FLAGS 🚩: {{remainingFlags}}</div>
             </div>
             <div>
-                @if(isGameOver && showPopup){
+                @if(isGameOver && showGameOverPopup){
                     <popup-message>
                         <div slot="status">{{this.gameStatus}}</div>
                         <div slot="content">{{this.gameMessage}}</div>
+                        <div slot="action-message">Do you want to play again?</div>
                         <div slot="actions">
                             <button (click)="restart()" class="btn-confirm">Yes</button>
-                            <button (click)="closePopup()" class="btn-cancel">No</button>
+                            <button (click)="closeGameOverPopup()" class="btn-cancel">No</button>
                         </div>
                     </popup-message>
                 }

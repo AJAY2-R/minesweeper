@@ -3,11 +3,12 @@ import { CellComponent } from '../cell/cell.component';
 import { Cell, DIRECTIONS, Gird } from '../../models/models';
 import { TimerComponent } from '../timer/timer.component';
 import { PopupComponent } from '../popup/popup.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'game-board',
   standalone: true,
-  imports: [CellComponent, TimerComponent, PopupComponent],
+  imports: [CellComponent, TimerComponent, PopupComponent, FormsModule],
   templateUrl: './game-board.component.html',
   styleUrl: './game-board.component.scss'
 })
@@ -24,7 +25,8 @@ export class GameBoardComponent {
   gameStatus: "" | "You Win" | "Game Over" = "";
   gameMessage: string = '';
   points: number = 0;
-  showPopup: boolean = false;
+  showGameOverPopup: boolean = false;
+  showSettings: boolean = false;
 
   timerComponent = viewChild.required<TimerComponent, TimerComponent>('timer', { read: TimerComponent });
   constructor() {
@@ -54,6 +56,7 @@ export class GameBoardComponent {
 
   private placeMines(mineCount: number): void {
     let minesPlaced = 0;
+    this.remainingFlags = this.minesCount;
     while (minesPlaced <= mineCount) {
       const row = Math.floor(Math.random() * this.rows);
       const col = Math.floor(Math.random() * this.cols);
@@ -147,7 +150,7 @@ export class GameBoardComponent {
       this.gameStatus = 'You Win';
       this.gameMessage = 'Congratulations! You have won the game';
       this.timerComponent().stopTimer();
-      this.showPopup = true;
+      this.showGameOverPopup = true;
     }
   }
 
@@ -172,10 +175,18 @@ export class GameBoardComponent {
     else {
       this.gameMessage = "You hit a mine. Game over!";
     }
-    this.showPopup = true;
+    this.showGameOverPopup = true;
   }
 
-  closePopup() {
-    this.showPopup = false;
+  closeGameOverPopup() {
+    this.showGameOverPopup = false;
+  }
+
+  openSettings() {
+    this.showSettings = true;
+  }
+  
+  closeSettings() {
+    this.showSettings = false;
   }
 }

@@ -21,17 +21,8 @@
     font-weight: 700;
     cursor: pointer;
   }
-  .flex-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    .flex-item {
-      flex: 1;
-      text-align: justify;
-    }
-  }
-  .btn-confirm{
-    background-color: #4CAF50;
+  .btn-confirm {
+    background-color: #4caf50;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -43,7 +34,7 @@
     margin: 4px 2px;
     cursor: pointer;
   }
-  .btn-cancel{
+  .btn-cancel {
     border: solid 1px #f5431f;
     border-radius: 5px;
     padding: 15px 32px;
@@ -54,4 +45,65 @@
     margin: 4px 2px;
     cursor: pointer;
   }
+}
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1px;
+  .flex-item {
+    flex: 1;
+    text-align: justify;
+  }
+}
+
+.g-settings {
+  input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  input:focus {
+    border: solid 1px #1f75f5;
+  }
+  button {
+    background-color: #279df1;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #1f75f5;
+  }
+  .btn-close {
+    background-color: #ef233c;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  .btn-close:hover {
+    background-color: #f44336;
+  }
+}
+.settings-ico {
+  font-size: 20px;
+  cursor: pointer;
 }
